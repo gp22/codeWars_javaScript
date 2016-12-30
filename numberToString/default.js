@@ -12,5 +12,6 @@ function numberToString(num) {
     // return num.toString();
     // return num.toFixed();
     // return num.toPrecision();
-    return String(num);
+    // return String(num);
+    return num + '';
 }
