@@ -27,7 +27,6 @@ function digPow(n, p) {
     var total = 0;
 
     for (let i = 0, j = p; i < num.length; i++,j++) {
-        // total += num[i] ** j;
         total += Math.pow(num[i], j);
     }
     return (Number.isInteger(total / n)) ? (total / n) : -1;
