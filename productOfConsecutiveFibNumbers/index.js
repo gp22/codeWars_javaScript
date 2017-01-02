@@ -32,28 +32,12 @@
 'use strict';
 
 function productFib(prod) {
-    // generate Fibonacci numbers up to a certain size and store them in an array
-    function genFib(bound) {
-        let fibArray = [0, 1, 1];
-        // check if fibArray is already big enough, if it is, return as is
-        if (fibArray.slice(-1) >= bound) {
-            return fibArray;
+    let array = [0, 1, 1];
+    for (var i = 2; array[i] * array[i - 1] <= prod; i++) {
+        if (array[i] * array[i - 1] === prod) {
+            return [array[i - 1], array[i], true];
         }
-        // otherwise, build fibArray up to bound
-        for (let i = 2; fibArray.slice(-1) < bound; i++) {
-            fibArray.push(fibArray[i] + fibArray[i - 1]);
-        }
-        return fibArray;
+        array.push(array[i] + array[i - 1]);
     }
-    // iterate through the array of Fibonacci numbers two at a time, finding if the product of any two equals prod
-    function findProd(array) {
-        let product = 0;
-        for (var i = 2; product < prod; i++) {
-            product = array[i] * array[i - 1];
-            if (product === prod) {
-                return [array[i - 1], array[i], true];
-            }
-        }
-        return [array[i - 2], array[i - 1], false];
-    }
+    return [array[i - 1], array[i], false];
 }
