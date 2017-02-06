@@ -11,6 +11,7 @@
     No punctuation or digits will be included.
     Performance needs to be considered
 */
+'use strict';
 
 /*
 function scramble(str1, str2) {
@@ -37,21 +38,62 @@ function scramble(str1, str2) {
 };
 */
 
-// I think the solution may have something to do with array.sort()
-function scramble(str1, str2) {
-    let array1 = str1.split('');
-    let array2 = str2.split('');
+// function scramble(str1, str2) {
+//     let array1 = str1.split('').sort();
+//     let array2 = str2.split('').sort();
 
-    array1.forEach(function(char) {
-        console.log(array2);
-        if (array2.indexOf(char) === -1) {
-            return false;
-        } else {
-            array2.pop(char);
-            if (array2.length === 0) {
-                return true;
+//     while (array1.length >= array2.length) {
+//         if (array2.length === 0) {
+//             return true;
+//         }
+//         // if the first character of both arrays are the same,
+//         // remove the first character from each array
+//         if (array1[0] === array2[0]) {
+//             array1.shift(), array2.shift();
+//         // if they are not the same, and the first char of array1 is
+//         // greater than the first char in array2, return false
+//         } else if (array1[0] > array2[0]) {
+//             return false;
+//         // otherwise, remove the first char of array1
+//         } else {
+//             array1.shift();
+//         }
+//     }
+//     return false;
+// };
+
+// This solution was the fastest by about 300ms and the only one that
+// passed the efficiency test for this kata
+function scramble(str1, str2) {
+    if (str1.length < str2.length) {
+        return false;
+    }
+
+    let str2Count = {};
+
+    // Create an object map of the count of all characters in str2
+    for (let i = 0; i < str2.length; i++) {
+        let c = str2[i];
+        str2Count.hasOwnProperty(c) ? str2Count[c]++ : str2Count[c] = 1;
+    }
+
+    // Iterate through str1 to check if each letter is in str2
+    for (let i = 0; i < str1.length; i++) {
+        let c = str1[i];
+        if (str2Count.hasOwnProperty(c)) {
+            str2Count[c]--;
+            if (str2Count[c] === 0) {
+                delete str2Count[c];
+                // if str2Count is empty, str1 contains all the letters of
+                // str2, so return true
+                if (Object.getOwnPropertyNames(str2Count).length === 0) {
+                    return true;
+                }
             }
         }
-    });
+    }
+
+    // If str1 was iterated through without emptying str2Count
+    // then str1 does not contain all the letters of str2
     return false;
 };
