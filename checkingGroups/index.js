@@ -27,35 +27,40 @@
 */
 'use strict';
 
-const str = '[[]()]';
-groupCheck(str);
+function groupCheck(s){
 
- function groupCheck(s){
-
-    const opening = {
+    const closing = {
         ')': '(',
         ']': '[',
         '}': '{'
-    }
+    };
 
-    const closing = {
+    const opening = {
         '(': ')',
         '[': ']',
         '{': '}'
-    }
+    };
 
-    let checkOrder = [];
+    let stack = [];
 
-    s.split('').forEach((c) => {
-        // is the character an opening or closing character?
-        // if it's an opening character, add it's closing character
+    for (const c of s) {
+        // let c = array[i];
+        // if c is an opening character, add it's closing character
         // to the beginning of checkOrder
-        // if it's a closing character, check if it's equal to the first
+        if (c in opening) {
+            stack.unshift(opening[c]);
+        } else if (c in closing) {
+        // if c is a closing character, check if it's equal to the first
         // character of checkOrder
-        // if it isn't, return false
-        // if it is, remove the first character of checkOrder and continue
-        console.log(c);
-    })
-    // is checkOrder.length equal to 0 ? return true : return false;
-   return false;
+            if (stack[0] === c) {
+                // if it is, remove the first character of checkOrder
+                stack.shift();
+            } else {
+                // if it isn't, return false
+                return false;
+            }
+        }
+    }
+    // is checkOrder empty? if it is return true, otherwise return false
+    return (stack.length === 0) ? true : false;
  }
